@@ -41,22 +41,31 @@ void main() {
 
   test('every category has at least 8 tips', () {
     for (final cat in kCategories) {
-      expect(repo.byCategory(cat.id).length, greaterThanOrEqualTo(8),
-          reason: '${cat.id} has fewer than 8 tips');
+      expect(
+        repo.byCategory(cat.id).length,
+        greaterThanOrEqualTo(8),
+        reason: '${cat.id} has fewer than 8 tips',
+      );
     }
   });
 
   test('every tip references a known category', () {
     for (final t in tips) {
-      expect(kCategoryById.containsKey(t.category), isTrue,
-          reason: '${t.id} has unknown category ${t.category}');
+      expect(
+        kCategoryById.containsKey(t.category),
+        isTrue,
+        reason: '${t.id} has unknown category ${t.category}',
+      );
     }
   });
 
   test('tip category pillar matches the tip pillar', () {
     for (final t in tips) {
-      expect(categoryById(t.category)!.pillar, t.pillar,
-          reason: '${t.id} pillar/category mismatch');
+      expect(
+        categoryById(t.category)!.pillar,
+        t.pillar,
+        reason: '${t.id} pillar/category mismatch',
+      );
     }
   });
 
@@ -72,7 +81,13 @@ void main() {
 
   test('content avoids banned absolute/medical claims', () {
     // Blueprint §13: no "cures / guarantees / treats" style language.
-    final banned = ['garanti', 'tedavi eder', 'iyileştirir', 'cures', 'guarantee'];
+    final banned = [
+      'garanti',
+      'tedavi eder',
+      'iyileştirir',
+      'cures',
+      'guarantee',
+    ];
     for (final t in tips) {
       final blob = [
         t.title.tr,
@@ -81,8 +96,11 @@ void main() {
         t.secondary.en,
       ].join(' ').toLowerCase();
       for (final word in banned) {
-        expect(blob.contains(word), isFalse,
-            reason: '${t.id} contains banned claim "$word"');
+        expect(
+          blob.contains(word),
+          isFalse,
+          reason: '${t.id} contains banned claim "$word"',
+        );
       }
     }
   });

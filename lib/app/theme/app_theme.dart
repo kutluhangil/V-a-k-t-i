@@ -9,22 +9,22 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData get light => _build(
-        brightness: Brightness.light,
-        bg: AppColors.lightBg,
-        surface: AppColors.lightSurface,
-        text: AppColors.lightText,
-        muted: AppColors.lightMuted,
-        border: AppColors.lightBorder,
-      );
+    brightness: Brightness.light,
+    bg: AppColors.lightBg,
+    surface: AppColors.lightSurface,
+    text: AppColors.lightText,
+    muted: AppColors.lightMuted,
+    border: AppColors.lightBorder,
+  );
 
   static ThemeData get dark => _build(
-        brightness: Brightness.dark,
-        bg: AppColors.darkBg,
-        surface: AppColors.darkSurface,
-        text: AppColors.darkText,
-        muted: AppColors.darkMuted,
-        border: AppColors.darkBorder,
-      );
+    brightness: Brightness.dark,
+    bg: AppColors.darkBg,
+    surface: AppColors.darkSurface,
+    text: AppColors.darkText,
+    muted: AppColors.darkMuted,
+    border: AppColors.darkBorder,
+  );
 
   static ThemeData _build({
     required Brightness brightness,

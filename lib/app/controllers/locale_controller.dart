@@ -22,8 +22,9 @@ class LocaleController extends Notifier<Locale?> {
   }
 }
 
-final localeProvider =
-    NotifierProvider<LocaleController, Locale?>(LocaleController.new);
+final localeProvider = NotifierProvider<LocaleController, Locale?>(
+  LocaleController.new,
+);
 
 /// Convenience: the effective language code given the active platform locale.
 String effectiveLanguageCode(Locale? selected, Locale platform) {

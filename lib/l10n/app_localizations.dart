@@ -380,6 +380,30 @@ abstract class AppLocalizations {
   /// **'I understand'**
   String get onboardingAgree;
 
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @notifDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications in system settings to get reminders.'**
+  String get notifDenied;
+
+  /// No description provided for @widgetInfoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the Vakti widget to your home screen to see today\'s tip at a glance.'**
+  String get widgetInfoBody;
+
+  /// No description provided for @aboutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Free, ad-free, offline. Made with care.'**
+  String get aboutBody;
+
   /// No description provided for @tipsLoaded.
   ///
   /// In en, this message translates to:

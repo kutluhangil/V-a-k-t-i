@@ -154,6 +154,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingAgree => 'I understand';
 
   @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get notifDenied =>
+      'Allow notifications in system settings to get reminders.';
+
+  @override
+  String get widgetInfoBody =>
+      'Add the Vakti widget to your home screen to see today\'s tip at a glance.';
+
+  @override
+  String get aboutBody => 'Free, ad-free, offline. Made with care.';
+
+  @override
   String tipsLoaded(int count) {
     return '$count tips loaded';
   }

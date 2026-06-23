@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations.dart';
 import 'controllers/locale_controller.dart';
 import 'controllers/theme_controller.dart';
-import 'dev_home.dart';
+import 'router.dart';
 import 'theme/app_theme.dart';
 
 /// Root app: binds theme (light/dark/system) and locale (tr/en/system),
-/// both driven by Riverpod + persisted in Hive.
+/// both driven by Riverpod + persisted in Hive, over a go_router shell.
 class VaktiApp extends ConsumerWidget {
   const VaktiApp({super.key});
 
@@ -18,7 +18,7 @@ class VaktiApp extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
 
-    return MaterialApp(
+    return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
@@ -32,8 +32,7 @@ class VaktiApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      // Phase 1 dev harness. Replaced by the go_router bottom-nav shell in Phase 2.
-      home: const DevHome(),
+      routerConfig: appRouter,
     );
   }
 }

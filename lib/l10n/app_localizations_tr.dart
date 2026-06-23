@@ -154,6 +154,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboardingAgree => 'Anladım';
 
   @override
+  String get onboardingSkip => 'Geç';
+
+  @override
+  String get notifDenied =>
+      'Hatırlatma almak için sistem ayarlarından bildirimlere izin ver.';
+
+  @override
+  String get widgetInfoBody =>
+      'Günün bilgisini bir bakışta görmek için ana ekranına Vakti widget\'ını ekle.';
+
+  @override
+  String get aboutBody => 'Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.';
+
+  @override
   String tipsLoaded(int count) {
     return '$count bilgi yüklendi';
   }

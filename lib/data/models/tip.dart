@@ -27,17 +27,18 @@ class Tip {
   });
 
   factory Tip.fromJson(Map<String, dynamic> j) => Tip(
-        id: j['id'] as String,
-        pillar: ContentPillar.values.byName(j['pillar'] as String),
-        category: j['category'] as String,
-        emoji: j['emoji'] as String,
-        title: LocalizedText.fromJson(j['title'] as Map<String, dynamic>),
-        primary: LocalizedText.fromJson(j['primary'] as Map<String, dynamic>),
-        secondary:
-            LocalizedText.fromJson(j['secondary'] as Map<String, dynamic>),
-        primaryLabel:
-            LocalizedText.fromJson(j['primaryLabel'] as Map<String, dynamic>),
-        secondaryLabel:
-            LocalizedText.fromJson(j['secondaryLabel'] as Map<String, dynamic>),
-      );
+    id: j['id'] as String,
+    pillar: ContentPillar.values.byName(j['pillar'] as String),
+    category: j['category'] as String,
+    emoji: j['emoji'] as String,
+    title: LocalizedText.fromJson(j['title'] as Map<String, dynamic>),
+    primary: LocalizedText.fromJson(j['primary'] as Map<String, dynamic>),
+    secondary: LocalizedText.fromJson(j['secondary'] as Map<String, dynamic>),
+    primaryLabel: LocalizedText.fromJson(
+      j['primaryLabel'] as Map<String, dynamic>,
+    ),
+    secondaryLabel: LocalizedText.fromJson(
+      j['secondaryLabel'] as Map<String, dynamic>,
+    ),
+  );
 }

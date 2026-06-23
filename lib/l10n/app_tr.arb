@@ -58,6 +58,11 @@
   "onboardingNext": "İleri",
   "onboardingStart": "Başla",
   "onboardingAgree": "Anladım",
+  "onboardingSkip": "Geç",
+
+  "notifDenied": "Hatırlatma almak için sistem ayarlarından bildirimlere izin ver.",
+  "widgetInfoBody": "Günün bilgisini bir bakışta görmek için ana ekranına Vakti widget'ını ekle.",
+  "aboutBody": "Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.",
 
   "tipsLoaded": "{count} bilgi yüklendi"
 }

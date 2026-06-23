@@ -58,6 +58,11 @@
   "onboardingNext": "Next",
   "onboardingStart": "Start",
   "onboardingAgree": "I understand",
+  "onboardingSkip": "Skip",
+
+  "notifDenied": "Allow notifications in system settings to get reminders.",
+  "widgetInfoBody": "Add the Vakti widget to your home screen to see today's tip at a glance.",
+  "aboutBody": "Free, ad-free, offline. Made with care.",
 
   "tipsLoaded": "{count} tips loaded",
   "@tipsLoaded": {
