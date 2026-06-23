@@ -74,6 +74,10 @@ flutter:
 
   assets:
     - assets/data/tips.json
+    # Per-card watercolor + line-art illustrations, keyed by tip id
+    # (assets/images/cards/<tip.id>.png). Missing files fall back to the
+    # time-arc motif in TipCard, so the set can roll out incrementally.
+    - assets/images/cards/
 
   # Bundled variable fonts (no runtime download -> offline & fast).
   # fontWeight in TextStyle maps onto the font's `wght` axis.

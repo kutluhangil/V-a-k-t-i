@@ -79,7 +79,7 @@ class TipCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(child: TimeArc(position: arcPositionForTip(tip))),
+        _CardHero(tip: tip, tint: tint),
         const SizedBox(height: 20),
         if (category != null)
           PillBadge(
@@ -87,9 +87,7 @@ class TipCard extends StatelessWidget {
             color: tint,
             emoji: tip.emoji,
           ),
-        const Spacer(),
-        Text(tip.emoji, style: const TextStyle(fontSize: 40)),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Text(tip.title.of(lang), style: titleStyle),
         const SizedBox(height: 24),
         _Line(
@@ -107,8 +105,47 @@ class TipCard extends StatelessWidget {
           tint: tint,
           muted: muted,
         ),
-        const Spacer(flex: 2),
+        const Spacer(),
       ],
+    );
+  }
+}
+
+/// Card hero zone. Shows the per-card watercolor illustration
+/// (`assets/images/cards/<tip.id>.png`) when present; otherwise falls back to
+/// the signature time-arc + emoji so cards without art still read as Vakti.
+class _CardHero extends StatelessWidget {
+  const _CardHero({required this.tip, required this.tint});
+
+  final Tip tip;
+  final Color tint;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: AspectRatio(
+        aspectRatio: 1.15,
+        child: Image.asset(
+          'assets/images/cards/${tip.id}.png',
+          fit: BoxFit.cover,
+          // No illustration yet -> keep the branded placeholder.
+          errorBuilder: (context, error, stackTrace) => _fallback(),
+        ),
+      ),
+    );
+  }
+
+  Widget _fallback() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TimeArc(position: arcPositionForTip(tip)),
+          const SizedBox(height: 20),
+          Text(tip.emoji, style: const TextStyle(fontSize: 44)),
+        ],
+      ),
     );
   }
 }
