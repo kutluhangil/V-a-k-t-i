@@ -127,7 +127,7 @@ class _CardHero extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 1.15,
         child: Image.asset(
-          'assets/images/cards/${tip.id}.png',
+          'assets/images/cards/${tip.id}.webp',
           fit: BoxFit.cover,
           // No illustration yet -> keep the branded placeholder.
           errorBuilder: (context, error, stackTrace) => _fallback(),
