@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' show PlatformDispatcher;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
@@ -18,31 +19,36 @@ import 'services/widget_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStore.instance.init();
-  await notificationService.init();
-  notificationService.onSelectTip = _routeToTip;
+  // Native-only startup (notifications, home widget, background work).
+  // Skipped on web — these plugins have no web implementation and would
+  // throw UnimplementedError / UnsupportedError before the first frame.
+  if (!kIsWeb) {
+    await notificationService.init();
+    notificationService.onSelectTip = _routeToTip;
 
-  await _bootstrapDailyOutputs();
+    await _bootstrapDailyOutputs();
 
-  // Widget tap (vakti://tip) -> refresh + open the tip.
-  HomeWidget.registerInteractivityCallback(_widgetBackgroundCallback);
-  HomeWidget.widgetClicked.listen((_) => _routeToTip(null));
+    // Widget tap (vakti://tip) -> refresh + open the tip.
+    HomeWidget.registerInteractivityCallback(_widgetBackgroundCallback);
+    HomeWidget.widgetClicked.listen((_) => _routeToTip(null));
 
-  if (Platform.isAndroid) {
-    try {
-      await Workmanager().initialize(_workmanagerCallback);
-      await Workmanager().registerPeriodicTask(
-        'vakti-daily',
-        'vakti-daily-refresh',
-        frequency: const Duration(hours: 24),
-        existingWorkPolicy: ExistingPeriodicWorkPolicy.keep,
-      );
-    } catch (_) {}
-  }
+    if (Platform.isAndroid) {
+      try {
+        await Workmanager().initialize(_workmanagerCallback);
+        await Workmanager().registerPeriodicTask(
+          'vakti-daily',
+          'vakti-daily-refresh',
+          frequency: const Duration(hours: 24),
+          existingWorkPolicy: ExistingPeriodicWorkPolicy.keep,
+        );
+      } catch (_) {}
+    }
 
-  // If launched by tapping a notification, open that tip after first frame.
-  final payload = await notificationService.launchPayload();
-  if (payload != null) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _routeToTip(payload));
+    // If launched by tapping a notification, open that tip after first frame.
+    final payload = await notificationService.launchPayload();
+    if (payload != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _routeToTip(payload));
+    }
   }
 
   runApp(const ProviderScope(child: VaktiApp()));

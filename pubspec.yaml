@@ -78,6 +78,9 @@ flutter:
     # (assets/images/cards/<tip.id>.webp). Missing files fall back to the
     # time-arc motif in TipCard, so the set can roll out incrementally.
     - assets/images/cards/
+    # Per-category watercolor icons (assets/images/icons/<category.id>.webp),
+    # used in the browse grid. Missing files fall back to the category emoji.
+    - assets/images/icons/
 
   # Bundled variable fonts (no runtime download -> offline & fast).
   # fontWeight in TextStyle maps onto the font's `wght` axis.
