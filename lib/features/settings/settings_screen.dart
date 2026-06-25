@@ -3,9 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/controllers/locale_controller.dart';
 import '../../app/controllers/theme_controller.dart';
+import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_typography.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/daily_tip_service.dart';
+import '../../widgets/vakti_screen_title.dart';
+import '../../widgets/vakti_segmented.dart';
 import 'settings_providers.dart';
 
 /// Settings tab: language, theme, daily reminder, widget info, legal, about.
@@ -15,94 +18,150 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
     final notif = ref.watch(notificationSettingsProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l.settingsTitle)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-          children: [
-            _GroupLabel(l.settingsLanguage),
-            SegmentedButton<String>(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(value: 'tr', label: Text(l.languageTr)),
-                ButtonSegment(value: 'en', label: Text(l.languageEn)),
-                ButtonSegment(value: 'system', label: Text(l.languageSystem)),
-              ],
-              selected: {locale?.languageCode ?? 'system'},
-              onSelectionChanged: (s) => ref
-                  .read(localeProvider.notifier)
-                  .setLocale(s.first == 'system' ? null : Locale(s.first)),
-            ),
-            const SizedBox(height: 24),
-            _GroupLabel(l.settingsTheme),
-            SegmentedButton<ThemeMode>(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(
-                  value: ThemeMode.light,
-                  label: Text(l.settingsThemeLight),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.dark,
-                  label: Text(l.settingsThemeDark),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.system,
-                  label: Text(l.settingsThemeSystem),
-                ),
-              ],
-              selected: {themeMode},
-              onSelectionChanged: (s) =>
-                  ref.read(themeModeProvider.notifier).setThemeMode(s.first),
-            ),
-            const SizedBox(height: 24),
-            _GroupLabel(l.settingsNotifications),
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l.settingsDailyReminder),
+    return SafeArea(
+      top: false,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        children: [
+          VaktiScreenTitle(l.settingsTitle),
+          const SizedBox(height: 28),
+
+          // Language
+          _GroupLabel(l.settingsLanguage),
+          VaktiSegmented<String>(
+            selected: locale?.languageCode ?? 'system',
+            onChanged: (v) => ref
+                .read(localeProvider.notifier)
+                .setLocale(v == 'system' ? null : Locale(v)),
+            segments: [
+              VaktiSegment('tr', l.languageTr),
+              VaktiSegment('en', l.languageEn),
+              VaktiSegment('system', l.languageSystem),
+            ],
+          ),
+          const SizedBox(height: 28),
+
+          // Theme
+          _GroupLabel(l.settingsTheme),
+          VaktiSegmented<ThemeMode>(
+            selected: themeMode,
+            onChanged: (v) =>
+                ref.read(themeModeProvider.notifier).setThemeMode(v),
+            segments: [
+              VaktiSegment(ThemeMode.light, l.settingsThemeLight),
+              VaktiSegment(ThemeMode.dark, l.settingsThemeDark),
+              VaktiSegment(ThemeMode.system, l.settingsThemeSystem),
+            ],
+          ),
+          const SizedBox(height: 28),
+
+          // Notifications
+          _GroupLabel(l.settingsNotifications),
+          _Row(
+            icon: Icons.notifications_none,
+            title: l.settingsDailyReminder,
+            trailing: Switch(
               value: notif.enabled,
+              activeThumbColor: Colors.white,
+              activeTrackColor: AppColors.saffron,
               onChanged: (v) => _toggleReminder(context, ref, v),
             ),
-            if (notif.enabled)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.schedule),
-                title: Text(l.settingsReminderTime),
-                trailing: Text(
-                  _fmt(notif.hour, notif.minute),
-                  style: AppTypography.bodyL,
+          ),
+          if (notif.enabled)
+            _Row(
+              icon: Icons.schedule,
+              title: l.settingsReminderTime,
+              onTap: () => _pickTime(context, ref, notif.hour, notif.minute),
+              trailing: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 7,
                 ),
-                onTap: () => _pickTime(context, ref, notif.hour, notif.minute),
+                decoration: BoxDecoration(
+                  color: AppColors.saffron.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  _fmt(notif.hour, notif.minute),
+                  style: AppTypography.bodyM.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.saffronDeep,
+                  ),
+                ),
               ),
-            const SizedBox(height: 16),
-            const Divider(),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.widgets_outlined),
-              title: Text(l.settingsWidget),
-              onTap: () => _info(context, l.settingsWidget, l.widgetInfoBody),
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.info_outline),
-              title: Text(l.settingsLegal),
-              onTap: () => _info(context, l.disclaimerTitle, l.disclaimerBody),
+
+          const SizedBox(height: 8),
+          Divider(color: theme.dividerColor, height: 32),
+
+          _Row(
+            icon: Icons.grid_view_outlined,
+            title: l.settingsWidget,
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _info(context, l.settingsWidget, l.widgetInfoBody),
+          ),
+          _Row(
+            icon: Icons.gavel_outlined,
+            title: l.settingsLegal,
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _info(context, l.disclaimerTitle, l.disclaimerBody),
+          ),
+
+          const SizedBox(height: 16),
+
+          // About block
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 2),
+                child: Icon(Icons.favorite_border, size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l.settingsAbout,
+                      style: AppTypography.titleL.copyWith(fontSize: 22),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${l.appTagline}\n${l.aboutBody}',
+                      style: AppTypography.bodyM.copyWith(
+                        color: theme.textTheme.bodySmall?.color,
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 40),
+          Center(
+            child: Text(
+              'VAKTİ V1.0.0',
+              style: AppTypography.labelCaps.copyWith(
+                color: theme.dividerColor,
+              ),
             ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.favorite_border),
-              title: Text(l.settingsAbout),
-              subtitle: Text('${l.appTagline}\n${l.aboutBody}'),
-              isThreeLine: true,
+          ),
+          const SizedBox(height: 4),
+          Center(
+            child: Text(
+              l.appTagline,
+              style: AppTypography.caption.copyWith(color: theme.dividerColor),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -173,6 +232,40 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
+/// A settings row: leading icon, title, optional trailing widget.
+class _Row extends StatelessWidget {
+  const _Row({
+    required this.icon,
+    required this.title,
+    this.trailing,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Icon(icon, size: 24),
+            const SizedBox(width: 16),
+            Expanded(child: Text(title, style: AppTypography.bodyL)),
+            ?trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _GroupLabel extends StatelessWidget {
   const _GroupLabel(this.text);
   final String text;
@@ -181,7 +274,7 @@ class _GroupLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final muted = Theme.of(context).textTheme.bodySmall?.color;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         text.toUpperCase(),
         style: AppTypography.labelCaps.copyWith(color: muted),

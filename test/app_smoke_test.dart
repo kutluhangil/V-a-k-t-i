@@ -68,11 +68,15 @@ void main() {
   testWidgets('browse opens a category list', (tester) async {
     await pumpApp(tester);
 
-    await tester.tap(find.byIcon(Icons.grid_view_outlined));
+    await tester.tap(find.byIcon(Icons.explore_outlined));
     await tester.pumpAndSettle();
     expect(find.text('Digestion'), findsWidgets);
 
-    await tester.tap(find.text('Digestion').first);
+    await tester.tap(
+      find
+          .ancestor(of: find.text('Digestion'), matching: find.byType(InkWell))
+          .first,
+    );
     await tester.pumpAndSettle();
     // Category detail shows the digestion tips.
     expect(find.text('Ginger Tea'), findsWidgets);

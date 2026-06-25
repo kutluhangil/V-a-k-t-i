@@ -10,6 +10,9 @@ import '../features/feed/feed_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../l10n/app_localizations.dart';
+import 'theme/app_colors.dart';
+import '../widgets/vakti_app_bar.dart';
+import '../widgets/vakti_nav_bar.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -98,39 +101,88 @@ class _ShellScaffold extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  void _go(int i) => navigationShell.goBranch(
+    i,
+    initialLocation: i == navigationShell.currentIndex,
+  );
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final items = [
+      VaktiNavItem(icon: Icons.auto_awesome_outlined, label: l.tabFeed),
+      VaktiNavItem(icon: Icons.explore_outlined, label: l.tabBrowse),
+      VaktiNavItem(icon: Icons.favorite_border, label: l.tabFavorites),
+      VaktiNavItem(icon: Icons.settings_outlined, label: l.tabSettings),
+    ];
     return Scaffold(
+      appBar: const VaktiAppBar(),
+      drawer: _ShellDrawer(
+        items: items,
+        currentIndex: navigationShell.currentIndex,
+        onSelect: _go,
+      ),
       body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (i) => navigationShell.goBranch(
-          i,
-          initialLocation: i == navigationShell.currentIndex,
+      bottomNavigationBar: VaktiNavBar(
+        items: items,
+        currentIndex: navigationShell.currentIndex,
+        onTap: _go,
+      ),
+    );
+  }
+}
+
+/// Side drawer opened from the shared app bar's menu button.
+class _ShellDrawer extends StatelessWidget {
+  const _ShellDrawer({
+    required this.items,
+    required this.currentIndex,
+    required this.onSelect,
+  });
+
+  final List<VaktiNavItem> items;
+  final int currentIndex;
+  final ValueChanged<int> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Drawer(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+              child: Text(
+                'Vakti',
+                style: theme.textTheme.displayMedium?.copyWith(fontSize: 28),
+              ),
+            ),
+            const SizedBox(height: 8),
+            for (var i = 0; i < items.length; i++)
+              ListTile(
+                leading: Icon(items[i].icon),
+                title: Text(items[i].label),
+                selected: i == currentIndex,
+                selectedColor: AppColors.saffronDeep,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  onSelect(i);
+                },
+              ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                l.appTagline,
+                style: theme.textTheme.bodySmall,
+              ),
+            ),
+          ],
         ),
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.dynamic_feed_outlined),
-            selectedIcon: const Icon(Icons.dynamic_feed),
-            label: l.tabFeed,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.grid_view_outlined),
-            selectedIcon: const Icon(Icons.grid_view),
-            label: l.tabBrowse,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.favorite_border),
-            selectedIcon: const Icon(Icons.favorite),
-            label: l.tabFavorites,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: l.tabSettings,
-          ),
-        ],
       ),
     );
   }

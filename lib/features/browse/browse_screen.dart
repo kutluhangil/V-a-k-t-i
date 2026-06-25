@@ -6,6 +6,7 @@ import '../../data/models/category.dart';
 import '../../data/models/content_pillar.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/category_tile.dart';
+import '../../widgets/vakti_screen_title.dart';
 
 /// Browse tab: categories grouped by pillar in a tinted grid (§7.3).
 class BrowseScreen extends StatelessWidget {
@@ -14,24 +15,23 @@ class BrowseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(l.browseTitle)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-          children: [
-            _Section(
-              title: l.pillarWellness,
-              categories: categoriesForPillar(ContentPillar.wellness),
-            ),
-            const SizedBox(height: 8),
-            _Section(
-              title: l.pillarCommunication,
-              categories: categoriesForPillar(ContentPillar.communication),
-            ),
-          ],
-        ),
+    return SafeArea(
+      top: false,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        children: [
+          VaktiScreenTitle(l.browseTitle),
+          const SizedBox(height: 12),
+          _Section(
+            title: l.pillarWellness,
+            categories: categoriesForPillar(ContentPillar.wellness),
+          ),
+          const SizedBox(height: 8),
+          _Section(
+            title: l.pillarCommunication,
+            categories: categoriesForPillar(ContentPillar.communication),
+          ),
+        ],
       ),
     );
   }

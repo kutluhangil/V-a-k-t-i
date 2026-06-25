@@ -6,8 +6,8 @@ import '../../data/repositories/favorites_repository.dart';
 import '../../data/repositories/tip_repository.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/empty_state.dart';
-import '../../widgets/tip_actions.dart';
-import '../../widgets/tip_card.dart';
+import '../../widgets/favorite_card.dart';
+import '../../widgets/vakti_screen_title.dart';
 
 /// Favorites tab: the tips saved on-device, newest first (§7.5).
 class FavoritesScreen extends ConsumerWidget {
@@ -19,52 +19,48 @@ class FavoritesScreen extends ConsumerWidget {
     final repoAsync = ref.watch(tipRepositoryProvider);
     final favIds = ref.watch(favoritesProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l.favoritesTitle)),
-      body: SafeArea(
-        top: false,
-        child: repoAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => Center(child: Text('$e')),
-          data: (repo) {
-            final tips = repo
-                .all()
-                .where((t) => favIds.contains(t.id))
-                .toList();
-            if (tips.isEmpty) {
-              return EmptyState(
-                emoji: '🤍',
-                title: l.favoritesEmptyTitle,
-                body: l.favoritesEmptyBody,
-              );
-            }
-            return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-              itemCount: tips.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 16),
-              itemBuilder: (context, i) {
-                final tip = tips[i];
-                return SizedBox(
-                  height: 480,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: GestureDetector(
-                          onTap: () => context.push('/tip/${tip.id}'),
-                          child: TipCard(tip: tip),
-                        ),
-                      ),
-                      Positioned(
-                        right: 12,
-                        bottom: 20,
-                        child: TipActions(tip: tip),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            VaktiScreenTitle(l.favoritesTitle),
+            const SizedBox(height: 16),
+            Expanded(
+              child: repoAsync.when(
+                loading: () =>
+                    const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text('$e')),
+                data: (repo) {
+                  final tips = repo
+                      .all()
+                      .where((t) => favIds.contains(t.id))
+                      .toList();
+                  if (tips.isEmpty) {
+                    return EmptyState(
+                      emoji: '🤍',
+                      title: l.favoritesEmptyTitle,
+                      body: l.favoritesEmptyBody,
+                    );
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),
+                    itemCount: tips.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 14),
+                    itemBuilder: (context, i) {
+                      final tip = tips[i];
+                      return FavoriteCard(
+                        tip: tip,
+                        onTap: () => context.push('/tip/${tip.id}'),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
