@@ -21,32 +21,68 @@ const _chipBorder = Color(0xFF45474B);
 
 /// First-run landing / welcome screen (§7.1). Editorial "golden hour" intro:
 /// the brand, the two pillars, and the call to enter. Sets `onboardingDone`.
-class OnboardingScreen extends ConsumerWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
-  Future<void> _enter(BuildContext context) async {
-    await LocalStore.instance.set(LocalStore.kOnboardingDone, true);
-    if (context.mounted) context.go('/feed');
+  @override
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  final ScrollController _scroll = ScrollController();
+  final ValueNotifier<double> _arcPosition = ValueNotifier(0.1);
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_onScroll);
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    _scroll.removeListener(_onScroll);
+    _scroll.dispose();
+    _arcPosition.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scroll.hasClients) return;
+    final max = _scroll.position.maxScrollExtent;
+    if (max <= 0) return;
+    final ratio = (_scroll.offset / max).clamp(0.0, 1.0);
+    _arcPosition.value = 0.1 + (ratio * 0.8);
+  }
+
+  Future<void> _enter() async {
+    await LocalStore.instance.set(LocalStore.kOnboardingDone, true);
+    if (mounted) context.go('/feed');
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: _bg,
       body: Stack(
         children: [
           // Time-arc decoration spanning the top.
-          const Positioned(
+          Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: IgnorePointer(
-              child: Center(child: TimeArc(position: 0.3, width: 460)),
+              child: Center(
+                child: ValueListenableBuilder<double>(
+                  valueListenable: _arcPosition,
+                  builder: (context, pos, _) => TimeArc(position: pos, width: 460),
+                ),
+              ),
             ),
           ),
           SafeArea(
             child: SingleChildScrollView(
+              controller: _scroll,
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
               child: Center(
                 child: ConstrainedBox(
@@ -105,7 +141,7 @@ class OnboardingScreen extends ConsumerWidget {
                       SizedBox(
                         width: double.infinity,
                         child: FilledButton(
-                          onPressed: () => _enter(context),
+                          onPressed: _enter,
                           style: FilledButton.styleFrom(
                             backgroundColor: AppColors.saffron,
                             foregroundColor: AppColors.ink,
