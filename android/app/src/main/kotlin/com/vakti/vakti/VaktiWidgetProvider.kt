@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.view.View
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
@@ -25,12 +26,23 @@ class VaktiWidgetProvider : HomeWidgetProvider() {
                 val emoji = widgetData.getString("emoji", "🌅") ?: "🌅"
                 val title = widgetData.getString("title", "Vakti") ?: "Vakti"
                 val primary = widgetData.getString("primary", "") ?: ""
-                val secondary = widgetData.getString("secondary", "") ?: ""
+                val category = widgetData.getString("category", "") ?: ""
+                val date = widgetData.getString("date", "") ?: ""
+                val streak = widgetData.getString("streak", "") ?: ""
 
                 setTextViewText(R.id.widget_emoji, emoji)
                 setTextViewText(R.id.widget_title, title)
                 setTextViewText(R.id.widget_primary, primary)
-                setTextViewText(R.id.widget_secondary, secondary)
+                setTextViewText(R.id.widget_category, category)
+                setTextViewText(R.id.widget_date, date)
+
+                // Streak chip only shows once a streak exists.
+                if (streak.isEmpty()) {
+                    setViewVisibility(R.id.widget_streak, View.GONE)
+                } else {
+                    setViewVisibility(R.id.widget_streak, View.VISIBLE)
+                    setTextViewText(R.id.widget_streak, streak)
+                }
 
                 val pendingIntent = HomeWidgetLaunchIntent.getActivity(
                     context,

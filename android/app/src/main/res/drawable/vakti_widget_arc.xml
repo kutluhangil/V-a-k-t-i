@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Signature "time arc" (zaman yayı): a sweeping saffron arc with a sun dot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp"
+    android:height="44dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+    <!-- The arc -->
+    <path
+        android:pathData="M16,62 A34,34 0 1 1 64,18"
+        android:strokeColor="@color/vakti_arc"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"/>
+    <!-- Sun dot at the arc tip -->
+    <path
+        android:pathData="M64,18 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
+        android:fillColor="@color/vakti_saffron"/>
+</vector>

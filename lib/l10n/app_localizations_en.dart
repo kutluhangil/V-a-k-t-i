@@ -133,6 +133,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsRateApp => 'Rate the app';
 
   @override
+  String get settingsStreak => 'Daily streak';
+
+  @override
+  String get settingsInterests => 'Your interests';
+
+  @override
+  String get settingsInterestsHint =>
+      'Topics you pick rise to the top of your feed';
+
+  @override
+  String streakDays(int count) {
+    return '$count days';
+  }
+
+  @override
+  String streakBest(int count) {
+    return 'Best: $count';
+  }
+
+  @override
+  String get streakNone => 'Start today';
+
+  @override
+  String get searchHint => 'Search tips';
+
+  @override
+  String get searchEmptyTitle => 'No results';
+
+  @override
+  String get searchEmptyBody => 'Try another word.';
+
+  @override
+  String get searchPrompt => 'When and why — start searching.';
+
+  @override
   String get languageTr => 'Türkçe';
 
   @override

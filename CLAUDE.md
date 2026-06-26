@@ -13,7 +13,9 @@ Premium "tip cards" that answer *when* and *why*. Two content pillars:
 No backend, no login, no analytics, no ads. All content ships in
 `assets/data/tips.json`. Full spec: `VAKTI_BLUEPRINT.md`.
 
-- Bundle id: **com.vakti.app** · App Group: `group.com.vakti.app` · Dart pkg: `vakti`
+- Android applicationId: **com.studiorosemary.vakti** (Play package; `com.vakti.app`
+  was taken by another dev) · Android namespace: `com.vakti.vakti` · iOS bundle id:
+  **com.vakti.app** · App Group: `group.com.vakti.app` · Dart pkg: `vakti`
 - Stack: Flutter 3.44.1 / Dart 3.12.1 · Riverpod 3 · go_router · Hive · home_widget ·
   workmanager · flutter_local_notifications · share_plus · screenshot
 - Fonts bundled (Fraunces display + Inter body), no runtime google_fonts.

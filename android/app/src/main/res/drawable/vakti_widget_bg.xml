@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Golden-hour card ground: warm diagonal gradient, r20, thin saffron stroke. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#14181F"/>
-    <corners android:radius="20dp"/>
-    <stroke android:width="1dp" android:color="#2A323D"/>
+    <gradient
+        android:type="linear"
+        android:angle="135"
+        android:startColor="@color/vakti_ink"
+        android:centerColor="@color/vakti_ink_warm"
+        android:endColor="@color/vakti_ink_ember"/>
+    <corners android:radius="22dp"/>
+    <stroke android:width="1dp" android:color="@color/vakti_border"/>
 </shape>

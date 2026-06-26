@@ -338,6 +338,66 @@ abstract class AppLocalizations {
   /// **'Rate the app'**
   String get settingsRateApp;
 
+  /// No description provided for @settingsStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily streak'**
+  String get settingsStreak;
+
+  /// No description provided for @settingsInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'Your interests'**
+  String get settingsInterests;
+
+  /// No description provided for @settingsInterestsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics you pick rise to the top of your feed'**
+  String get settingsInterestsHint;
+
+  /// No description provided for @streakDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String streakDays(int count);
+
+  /// No description provided for @streakBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best: {count}'**
+  String streakBest(int count);
+
+  /// No description provided for @streakNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Start today'**
+  String get streakNone;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search tips'**
+  String get searchHint;
+
+  /// No description provided for @searchEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get searchEmptyTitle;
+
+  /// No description provided for @searchEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another word.'**
+  String get searchEmptyBody;
+
+  /// No description provided for @searchPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'When and why — start searching.'**
+  String get searchPrompt;
+
   /// No description provided for @languageTr.
   ///
   /// In en, this message translates to:

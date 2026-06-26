@@ -21,6 +21,10 @@ class LocalStore {
   static const kNotificationsEnabled = 'notificationsEnabled'; // bool
   static const kNotificationHour = 'notificationHour'; // int
   static const kNotificationMinute = 'notificationMinute'; // int
+  static const kStreakCount = 'streakCount'; // int — current consecutive days
+  static const kStreakBest = 'streakBest'; // int — best streak ever
+  static const kStreakLastDate = 'streakLastDate'; // 'yyyy-MM-dd'
+  static const kInterests = 'interests'; // List<String> category ids
 
   bool _memory = false;
   final Map<String, Object?> _memSettings = {};

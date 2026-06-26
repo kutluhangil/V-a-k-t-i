@@ -48,6 +48,20 @@
   "settingsLegal": "Bilgilendirme ve yasal",
   "settingsAbout": "Hakkında",
   "settingsRateApp": "Uygulamayı değerlendir",
+  "settingsStreak": "Günlük seri",
+  "settingsInterests": "İlgi alanların",
+  "settingsInterestsHint": "Seçtiğin konular akışta öne çıkar",
+
+  "streakDays": "{count} gün",
+  "@streakDays": { "placeholders": { "count": { "type": "int" } } },
+  "streakBest": "En iyi: {count}",
+  "@streakBest": { "placeholders": { "count": { "type": "int" } } },
+  "streakNone": "Bugün başla",
+
+  "searchHint": "Bilgilerde ara",
+  "searchEmptyTitle": "Sonuç yok",
+  "searchEmptyBody": "Başka bir kelime dene.",
+  "searchPrompt": "Ne zaman ve neden — aramaya başla.",
 
   "languageTr": "Türkçe",
   "languageEn": "English",

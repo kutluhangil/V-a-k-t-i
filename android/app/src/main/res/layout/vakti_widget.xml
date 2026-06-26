@@ -1,68 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/vakti_widget_bg"
-    android:padding="16dp">
+    android:background="@drawable/vakti_widget_bg">
+
+    <!-- Decorative time-arc motif, top-right, behind content. -->
+    <ImageView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:alpha="0.9"
+        android:importantForAccessibility="no"
+        android:src="@drawable/vakti_widget_arc"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/widget_emoji"
+        <!-- Top row: brand kicker + date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/widget_kicker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/vakti_saffron"
+                android:textSize="10sp"
+                android:letterSpacing="0.18"
+                android:textAllCaps="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="VAKTİ"/>
+
+            <TextView
+                android:id="@+id/widget_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="52dp"
+                android:textColor="@color/vakti_muted"
+                android:textSize="10sp"
+                android:letterSpacing="0.1"
+                android:textAllCaps="true"
+                android:text=""/>
+        </LinearLayout>
+
+        <!-- Category + emoji -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="🌅"/>
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/vakti_widget_pill"
+            android:paddingStart="9dp"
+            android:paddingEnd="11dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
+            <TextView
+                android:id="@+id/widget_emoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="🌅"/>
+
+            <TextView
+                android:id="@+id/widget_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textColor="@color/vakti_saffron"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-medium"
+                android:text=""/>
+        </LinearLayout>
+
+        <!-- Title -->
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/widget_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:textColor="@color/vakti_paper"
+            android:textSize="17sp"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:lineSpacingMultiplier="1.05"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="Vakti"/>
+
+        <!-- "When" line. Weighted so it fills the gap and pins the streak chip
+             to the bottom (RemoteViews has no Space view). -->
+        <TextView
+            android:id="@+id/widget_primary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:textColor="#E0A24B"
+            android:layout_marginTop="5dp"
+            android:gravity="top"
+            android:textColor="@color/vakti_muted"
+            android:textSize="12sp"
+            android:lineSpacingMultiplier="1.1"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text=""/>
+
+        <!-- Streak chip (hidden by the provider when empty) -->
+        <TextView
+            android:id="@+id/widget_streak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/vakti_widget_pill"
+            android:paddingStart="10dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="@color/vakti_saffron"
             android:textSize="11sp"
-            android:letterSpacing="0.1"
-            android:textAllCaps="true"
-            android:text="VAKTİ"/>
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone"
+            android:text=""/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/widget_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#F2EFE9"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text="Vakti"/>
-
-    <TextView
-        android:id="@+id/widget_primary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="#F2EFE9"
-        android:textSize="13sp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text=""/>
-
-    <TextView
-        android:id="@+id/widget_secondary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="#9BA3AF"
-        android:textSize="12sp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text=""/>
-</LinearLayout>
+</FrameLayout>

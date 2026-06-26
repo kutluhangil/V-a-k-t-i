@@ -15,3 +15,10 @@ ReminderCopy reminderCopy(String lang) => lang == 'tr'
         "Today's tip is ready 🌅",
         'A small, well-timed idea is waiting for you.',
       );
+
+/// Reminder body that teases the actual tip of the day ("Bugün: Zencefil Çayı").
+/// Falls back to the generic copy when no tip title is available.
+String reminderBodyForTip(String lang, String? tipTitle) {
+  if (tipTitle == null || tipTitle.isEmpty) return reminderCopy(lang).body;
+  return lang == 'tr' ? 'Bugün: $tipTitle' : 'Today: $tipTitle';
+}

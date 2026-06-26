@@ -133,6 +133,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsRateApp => 'Uygulamayı değerlendir';
 
   @override
+  String get settingsStreak => 'Günlük seri';
+
+  @override
+  String get settingsInterests => 'İlgi alanların';
+
+  @override
+  String get settingsInterestsHint => 'Seçtiğin konular akışta öne çıkar';
+
+  @override
+  String streakDays(int count) {
+    return '$count gün';
+  }
+
+  @override
+  String streakBest(int count) {
+    return 'En iyi: $count';
+  }
+
+  @override
+  String get streakNone => 'Bugün başla';
+
+  @override
+  String get searchHint => 'Bilgilerde ara';
+
+  @override
+  String get searchEmptyTitle => 'Sonuç yok';
+
+  @override
+  String get searchEmptyBody => 'Başka bir kelime dene.';
+
+  @override
+  String get searchPrompt => 'Ne zaman ve neden — aramaya başla.';
+
+  @override
   String get languageTr => 'Türkçe';
 
   @override

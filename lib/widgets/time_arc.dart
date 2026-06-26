@@ -15,6 +15,7 @@ class TimeArc extends StatelessWidget {
     this.width = 132,
     this.dotColor = AppColors.saffron,
     this.arcColor,
+    this.animate = false,
   });
 
   /// 0.0 = far left (early), 0.5 = top (midday), 1.0 = far right (late).
@@ -23,20 +24,31 @@ class TimeArc extends StatelessWidget {
   final Color dotColor;
   final Color? arcColor;
 
+  /// When true, the moment dot sweeps in from the left on first build —
+  /// a subtle "golden hour" reveal.
+  final bool animate;
+
   @override
   Widget build(BuildContext context) {
     final line =
         arcColor ?? Theme.of(context).dividerColor.withValues(alpha: 0.9);
-    return SizedBox(
+    final target = position.clamp(0.0, 1.0);
+
+    Widget paint(double p) => SizedBox(
       width: width,
       height: width / 2 + 8,
       child: CustomPaint(
-        painter: _ArcPainter(
-          position: position.clamp(0.0, 1.0),
-          arcColor: line,
-          dotColor: dotColor,
-        ),
+        painter: _ArcPainter(position: p, arcColor: line, dotColor: dotColor),
       ),
+    );
+
+    if (!animate) return paint(target);
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.06, end: target),
+      duration: const Duration(milliseconds: 650),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, _) => paint(value),
     );
   }
 }

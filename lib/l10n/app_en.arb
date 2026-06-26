@@ -48,6 +48,20 @@
   "settingsLegal": "Disclaimer & legal",
   "settingsAbout": "About",
   "settingsRateApp": "Rate the app",
+  "settingsStreak": "Daily streak",
+  "settingsInterests": "Your interests",
+  "settingsInterestsHint": "Topics you pick rise to the top of your feed",
+
+  "streakDays": "{count} days",
+  "@streakDays": { "placeholders": { "count": { "type": "int" } } },
+  "streakBest": "Best: {count}",
+  "@streakBest": { "placeholders": { "count": { "type": "int" } } },
+  "streakNone": "Start today",
+
+  "searchHint": "Search tips",
+  "searchEmptyTitle": "No results",
+  "searchEmptyBody": "Try another word.",
+  "searchPrompt": "When and why — start searching.",
 
   "languageTr": "Türkçe",
   "languageEn": "English",

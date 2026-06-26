@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../app/theme/app_typography.dart';
 import '../../data/models/content_pillar.dart';
 import '../../data/repositories/tip_repository.dart';
 import '../../l10n/app_localizations.dart';
+import '../../services/streak_service.dart';
 import '../../widgets/tip_actions.dart';
 import '../../widgets/tip_card.dart';
 import 'feed_providers.dart';
@@ -32,6 +36,7 @@ class FeedScreen extends ConsumerWidget {
               data: (_) => PageView.builder(
                 key: ValueKey(pillar),
                 scrollDirection: Axis.vertical,
+                onPageChanged: (_) => HapticFeedback.selectionClick(),
                 itemCount: tips.length,
                 itemBuilder: (context, i) {
                   final tip = tips[i];
@@ -74,28 +79,61 @@ class _PillarFilter extends ConsumerWidget {
     final controller = ref.read(pillarFilterProvider.notifier);
     return SizedBox(
       height: 56,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
         children: [
-          _Chip(
-            label: l.pillarAll,
-            active: selected == null,
-            onTap: () => controller.set(null),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              children: [
+                _Chip(
+                  label: l.pillarAll,
+                  active: selected == null,
+                  onTap: () => controller.set(null),
+                ),
+                const SizedBox(width: 8),
+                _Chip(
+                  label: l.pillarWellness,
+                  active: selected == ContentPillar.wellness,
+                  onTap: () => controller.set(ContentPillar.wellness),
+                ),
+                const SizedBox(width: 8),
+                _Chip(
+                  label: l.pillarCommunication,
+                  active: selected == ContentPillar.communication,
+                  onTap: () => controller.set(ContentPillar.communication),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(width: 8),
-          _Chip(
-            label: l.pillarWellness,
-            active: selected == ContentPillar.wellness,
-            onTap: () => controller.set(ContentPillar.wellness),
-          ),
-          const SizedBox(width: 8),
-          _Chip(
-            label: l.pillarCommunication,
-            active: selected == ContentPillar.communication,
-            onTap: () => controller.set(ContentPillar.communication),
-          ),
+          const _StreakChip(),
+          const SizedBox(width: 12),
         ],
+      ),
+    );
+  }
+}
+
+/// Small "🔥 N" badge shown once a streak of 2+ days is going.
+class _StreakChip extends ConsumerWidget {
+  const _StreakChip();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final streak = ref.watch(streakProvider).current;
+    if (streak < 2) return const SizedBox.shrink();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.saffron.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        '🔥 $streak',
+        style: AppTypography.labelCaps.copyWith(
+          color: AppColors.saffronDeep,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

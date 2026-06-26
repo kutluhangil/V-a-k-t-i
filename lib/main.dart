@@ -14,11 +14,18 @@ import 'data/sources/local_store.dart';
 import 'services/daily_tip_service.dart';
 import 'services/notification_service.dart';
 import 'services/reminder_copy.dart';
+import 'services/streak_service.dart';
 import 'services/widget_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStore.instance.init();
+
+  // Shared Riverpod container so the streak recorded at startup is the same
+  // state the UI reads this session.
+  final container = ProviderContainer();
+  await container.read(streakProvider.notifier).recordToday();
+
   // Native-only startup (notifications, home widget, background work).
   // Skipped on web — these plugins have no web implementation and would
   // throw UnimplementedError / UnsupportedError before the first frame.
@@ -51,7 +58,9 @@ Future<void> main() async {
     }
   }
 
-  runApp(const ProviderScope(child: VaktiApp()));
+  runApp(
+    UncontrolledProviderScope(container: container, child: const VaktiApp()),
+  );
 }
 
 @pragma('vm:entry-point')
@@ -77,7 +86,13 @@ Future<void> _refreshWidget() async {
   try {
     final tips = await const AssetTipSource().load();
     final tip = dailyTipService.pick(tips, DateTime.now());
-    await widgetService.updateFromTip(tip, _currentLang());
+    final streak =
+        LocalStore.instance.get<int>(
+          LocalStore.kStreakCount,
+          defaultValue: 0,
+        ) ??
+        0;
+    await widgetService.updateFromTip(tip, _currentLang(), streak: streak);
   } catch (_) {}
 }
 
@@ -105,14 +120,15 @@ Future<void> _bootstrapDailyOutputs() async {
           defaultValue: 0,
         ) ??
         0;
-    final copy = reminderCopy(_currentLang());
+    final lang = _currentLang();
+    final copy = reminderCopy(lang);
     final tips = await const AssetTipSource().load();
     final tip = dailyTipService.pick(tips, DateTime.now());
     await notificationService.scheduleDaily(
       hour: hour,
       minute: minute,
       title: copy.title,
-      body: copy.body,
+      body: reminderBodyForTip(lang, tip.title.of(lang)),
       payload: tip.id,
     );
   } catch (_) {}

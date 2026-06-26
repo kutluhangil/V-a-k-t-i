@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#14181F</color>
+
+    <!-- Vakti brand — golden hour. Mirrors lib/app/theme/app_colors.dart. -->
+    <color name="vakti_ink">#14181F</color>
+    <color name="vakti_ink_warm">#1E1812</color>
+    <color name="vakti_ink_ember">#2A1E12</color>
+    <color name="vakti_paper">#F2EFE9</color>
+    <color name="vakti_saffron">#E0A24B</color>
+    <color name="vakti_saffron_deep">#C07F2E</color>
+    <color name="vakti_muted">#9BA3AF</color>
+    <color name="vakti_border">#3A2E1E</color>
+    <color name="vakti_pill">#2BE0A24B</color>
+    <color name="vakti_arc">#4DE0A24B</color>
+    <color name="vakti_divider">#22FFFFFF</color>
 </resources>

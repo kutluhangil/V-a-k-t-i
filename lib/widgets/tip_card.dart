@@ -147,7 +147,7 @@ class _CardHero extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TimeArc(position: arcPositionForTip(tip)),
+          TimeArc(position: arcPositionForTip(tip), animate: true),
           const SizedBox(height: 20),
           Text(tip.emoji, style: const TextStyle(fontSize: 44)),
         ],
