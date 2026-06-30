@@ -9,12 +9,13 @@ import '../features/favorites/favorites_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/streak/streak_screen.dart';
 import '../l10n/app_localizations.dart';
 import 'theme/app_colors.dart';
 import '../widgets/vakti_app_bar.dart';
 import '../widgets/vakti_nav_bar.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 /// QA/screenshot hook: `--dart-define=SKIP_ONBOARDING=true` skips first-run
 /// onboarding. Never true in a normal release build.
@@ -24,7 +25,7 @@ const _skipOnboarding = bool.fromEnvironment('SKIP_ONBOARDING');
 /// with the category detail pushed inside the Browse branch, and the single-tip
 /// detail pushed full-screen over the shell (§6.3, §7.4).
 final GoRouter appRouter = GoRouter(
-  navigatorKey: _rootNavigatorKey,
+  navigatorKey: rootNavigatorKey,
   initialLocation: '/feed',
   redirect: (context, state) {
     final done =
@@ -42,13 +43,18 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/onboarding',
-      parentNavigatorKey: _rootNavigatorKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (_, _) => const OnboardingScreen(),
     ),
     GoRoute(
       path: '/tip/:id',
-      parentNavigatorKey: _rootNavigatorKey,
+      parentNavigatorKey: rootNavigatorKey,
       builder: (_, state) => DetailScreen(tipId: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/streak',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, _) => const StreakScreen(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>

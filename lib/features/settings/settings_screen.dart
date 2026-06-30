@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/controllers/locale_controller.dart';
 import '../../app/controllers/theme_controller.dart';
@@ -323,38 +324,42 @@ class _StreakBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        color: AppColors.saffron.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.saffron.withValues(alpha: 0.28)),
-      ),
-      child: Row(
-        children: [
-          const Text('🔥', style: TextStyle(fontSize: 28)),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l.settingsStreak, style: AppTypography.labelCaps),
-                const SizedBox(height: 2),
-                Text(
-                  current < 1 ? l.streakNone : l.streakDays(current),
-                  style: AppTypography.titleL.copyWith(fontSize: 22),
-                ),
-              ],
-            ),
-          ),
-          if (best > 1)
-            Text(
-              l.streakBest(best),
-              style: AppTypography.caption.copyWith(
-                color: AppColors.saffronDeep,
+    return InkWell(
+      onTap: () => context.push('/streak'),
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        decoration: BoxDecoration(
+          color: AppColors.saffron.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.saffron.withValues(alpha: 0.28)),
+        ),
+        child: Row(
+          children: [
+            const Text('🔥', style: TextStyle(fontSize: 28)),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l.settingsStreak, style: AppTypography.labelCaps),
+                  const SizedBox(height: 2),
+                  Text(
+                    current < 1 ? l.streakNone : l.streakDays(current),
+                    style: AppTypography.titleL.copyWith(fontSize: 22),
+                  ),
+                ],
               ),
             ),
-        ],
+            if (best > 1)
+              Text(
+                l.streakBest(best),
+                style: AppTypography.caption.copyWith(
+                  color: AppColors.saffronDeep,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

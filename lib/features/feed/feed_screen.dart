@@ -122,17 +122,20 @@ class _StreakChip extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final streak = ref.watch(streakProvider).current;
     if (streak < 2) return const SizedBox.shrink();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.saffron.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        '🔥 $streak',
-        style: AppTypography.labelCaps.copyWith(
-          color: AppColors.saffronDeep,
-          fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onTap: () => context.push('/streak'),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.saffron.withValues(alpha: 0.14),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Text(
+          '🔥 $streak',
+          style: AppTypography.labelCaps.copyWith(
+            color: AppColors.saffronDeep,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
