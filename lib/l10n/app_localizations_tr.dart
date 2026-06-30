@@ -155,6 +155,37 @@ class AppLocalizationsTr extends AppLocalizations {
   String get streakNone => 'Bugün başla';
 
   @override
+  String get streakScreenTitle => 'Serin';
+
+  @override
+  String get streakGridTitle => 'Son 90 gün';
+
+  @override
+  String get streakMilestonesTitle => 'Kilometre taşları';
+
+  @override
+  String streakNextTarget(int remaining, int target) {
+    return '$target güne $remaining gün kaldı';
+  }
+
+  @override
+  String get streakAllMilestones => 'Tüm hedefler tamam 🎉';
+
+  @override
+  String get streakRule => 'Serini sürdürmek için Vakti\'yi günde bir kez aç.';
+
+  @override
+  String streakCelebrationTitle(int days) {
+    return '$days günlük seri!';
+  }
+
+  @override
+  String get streakCelebrationBody => 'Buradasın. Ritmi koru.';
+
+  @override
+  String get streakCelebrateDismiss => 'Devam';
+
+  @override
   String get searchHint => 'Bilgilerde ara';
 
   @override

@@ -374,6 +374,60 @@ abstract class AppLocalizations {
   /// **'Start today'**
   String get streakNone;
 
+  /// No description provided for @streakScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your streak'**
+  String get streakScreenTitle;
+
+  /// No description provided for @streakGridTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get streakGridTitle;
+
+  /// No description provided for @streakMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get streakMilestonesTitle;
+
+  /// No description provided for @streakNextTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} days to {target}'**
+  String streakNextTarget(int remaining, int target);
+
+  /// No description provided for @streakAllMilestones.
+  ///
+  /// In en, this message translates to:
+  /// **'All milestones reached 🎉'**
+  String get streakAllMilestones;
+
+  /// No description provided for @streakRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Vakti once a day to keep your streak going.'**
+  String get streakRule;
+
+  /// No description provided for @streakCelebrationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}-day streak!'**
+  String streakCelebrationTitle(int days);
+
+  /// No description provided for @streakCelebrationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You showed up. Keep the rhythm going.'**
+  String get streakCelebrationBody;
+
+  /// No description provided for @streakCelebrateDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get streakCelebrateDismiss;
+
   /// No description provided for @searchHint.
   ///
   /// In en, this message translates to:

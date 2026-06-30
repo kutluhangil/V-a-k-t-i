@@ -156,6 +156,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streakNone => 'Start today';
 
   @override
+  String get streakScreenTitle => 'Your streak';
+
+  @override
+  String get streakGridTitle => 'Last 90 days';
+
+  @override
+  String get streakMilestonesTitle => 'Milestones';
+
+  @override
+  String streakNextTarget(int remaining, int target) {
+    return '$remaining days to $target';
+  }
+
+  @override
+  String get streakAllMilestones => 'All milestones reached 🎉';
+
+  @override
+  String get streakRule => 'Open Vakti once a day to keep your streak going.';
+
+  @override
+  String streakCelebrationTitle(int days) {
+    return '$days-day streak!';
+  }
+
+  @override
+  String get streakCelebrationBody => 'You showed up. Keep the rhythm going.';
+
+  @override
+  String get streakCelebrateDismiss => 'Continue';
+
+  @override
   String get searchHint => 'Search tips';
 
   @override

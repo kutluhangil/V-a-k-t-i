@@ -58,6 +58,18 @@
   "@streakBest": { "placeholders": { "count": { "type": "int" } } },
   "streakNone": "Bugün başla",
 
+  "streakScreenTitle": "Serin",
+  "streakGridTitle": "Son 90 gün",
+  "streakMilestonesTitle": "Kilometre taşları",
+  "streakNextTarget": "{target} güne {remaining} gün kaldı",
+  "@streakNextTarget": { "placeholders": { "remaining": { "type": "int" }, "target": { "type": "int" } } },
+  "streakAllMilestones": "Tüm hedefler tamam 🎉",
+  "streakRule": "Serini sürdürmek için Vakti'yi günde bir kez aç.",
+  "streakCelebrationTitle": "{days} günlük seri!",
+  "@streakCelebrationTitle": { "placeholders": { "days": { "type": "int" } } },
+  "streakCelebrationBody": "Buradasın. Ritmi koru.",
+  "streakCelebrateDismiss": "Devam",
+
   "searchHint": "Bilgilerde ara",
   "searchEmptyTitle": "Sonuç yok",
   "searchEmptyBody": "Başka bir kelime dene.",
