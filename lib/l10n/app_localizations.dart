@@ -230,6 +230,12 @@ abstract class AppLocalizations {
   /// **'Today\'s tip'**
   String get dailyTipLabel;
 
+  /// No description provided for @feedTodayBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Card'**
+  String get feedTodayBadge;
+
   /// No description provided for @browseTitle.
   ///
   /// In en, this message translates to:

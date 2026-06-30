@@ -79,6 +79,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyTipLabel => 'Today\'s tip';
 
   @override
+  String get feedTodayBadge => 'Today\'s Card';
+
+  @override
   String get browseTitle => 'Browse';
 
   @override

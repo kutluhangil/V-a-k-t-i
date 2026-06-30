@@ -55,6 +55,12 @@ class FeedScreen extends ConsumerWidget {
                           bottom: 28,
                           child: TipActions(tip: tip),
                         ),
+                        if (i == 0)
+                          Positioned(
+                            left: 12,
+                            top: 20,
+                            child: _TodayBadge(label: l.feedTodayBadge),
+                          ),
                       ],
                     ),
                   );
@@ -156,6 +162,31 @@ class _Chip extends StatelessWidget {
       selected: active,
       onSelected: (_) => onTap(),
       showCheckmark: false,
+    );
+  }
+}
+
+/// Saffron pill marking the pinned daily card at the top of the feed.
+class _TodayBadge extends StatelessWidget {
+  const _TodayBadge({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.saffron.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: AppTypography.labelCaps.copyWith(
+          color: AppColors.saffronDeep,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 }

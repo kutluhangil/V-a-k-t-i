@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/content_pillar.dart';
 import '../../data/models/tip.dart';
 import '../../data/repositories/tip_repository.dart';
+import '../../services/daily_tip_service.dart';
 import '../settings/interests_provider.dart';
 
 /// Active pillar filter for the feed. `null` = all pillars.
@@ -27,8 +28,9 @@ final feedTipsProvider = Provider<List<Tip>>((ref) {
   final pillar = ref.watch(pillarFilterProvider);
   final base = pillar == null ? repo.all() : repo.byPillar(pillar);
 
+  final daily = ref.watch(dailyTipProvider);
   final interests = ref.watch(interestsProvider);
-  if (interests.isEmpty) return base;
+  if (interests.isEmpty) return pinFirst(base, daily);
 
   // Stable partition: interested categories keep their order, then the rest.
   final preferred = <Tip>[];
@@ -36,5 +38,12 @@ final feedTipsProvider = Provider<List<Tip>>((ref) {
   for (final t in base) {
     (interests.contains(t.category) ? preferred : others).add(t);
   }
-  return [...preferred, ...others];
+  return pinFirst([...preferred, ...others], daily);
 });
+
+/// Returns [tips] with [daily] moved to the front (removing any duplicate of it).
+/// If [daily] is null, returns [tips] unchanged. Pure — unit-testable.
+List<Tip> pinFirst(List<Tip> tips, Tip? daily) {
+  if (daily == null) return tips;
+  return [daily, ...tips.where((t) => t.id != daily.id)];
+}

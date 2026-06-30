@@ -9,6 +9,7 @@ import 'package:vakti/app/router.dart';
 import 'package:vakti/data/models/tip.dart';
 import 'package:vakti/data/repositories/tip_repository.dart';
 import 'package:vakti/data/sources/local_store.dart';
+import 'package:vakti/services/daily_tip_service.dart';
 import 'package:vakti/widgets/tip_actions.dart';
 
 // Widget tests run LocalStore in memory: Hive writes scheduled under the fake
@@ -44,7 +45,10 @@ void main() {
   Future<void> pumpApp(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [tipRepositoryProvider.overrideWith((ref) => repo)],
+        overrides: [
+          tipRepositoryProvider.overrideWith((ref) => repo),
+          dailyTipProvider.overrideWithValue(null),
+        ],
         child: const VaktiApp(),
       ),
     );

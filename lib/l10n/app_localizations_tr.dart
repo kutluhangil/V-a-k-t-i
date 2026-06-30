@@ -79,6 +79,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get dailyTipLabel => 'Günün bilgisi';
 
   @override
+  String get feedTodayBadge => 'Günün Kartı';
+
+  @override
   String get browseTitle => 'Gözat';
 
   @override
