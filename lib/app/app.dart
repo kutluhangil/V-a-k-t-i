@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../features/streak/streak_celebration.dart';
 import '../l10n/app_localizations.dart';
 import 'controllers/locale_controller.dart';
 import 'controllers/theme_controller.dart';
@@ -33,6 +34,8 @@ class VaktiApp extends ConsumerWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: appRouter,
+      builder: (context, child) =>
+          StreakCelebrationListener(child: child ?? const SizedBox.shrink()),
     );
   }
 }

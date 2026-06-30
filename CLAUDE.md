@@ -100,15 +100,76 @@ flutter run -d <device>
 - [ ] Verify widget on real Android device + iOS after the Xcode step.
 
 **Nice to have / deferred**
-- [ ] Streak (günlük seri) — deferred to v1.1 per blueprint §2.
+- [x] Streak (günlük seri) — shipped in v1.1 (`streak_service`, feed 🔥 chip, settings banner).
+- [x] in_app_review for the "Rate" action — shipped (`review_service`).
 - [ ] Expand content beyond 88 cards if desired.
 - [ ] Adult/partner communication content (currently child/parent only).
-- [ ] in_app_review for the "Rate" action (currently a placeholder tile).
 - [ ] Remove `SKIP_ONBOARDING` QA flag before release if undesired (defaults false).
 
 **Not yet done**
-- [ ] No git commit made yet — working tree has all the above uncommitted.
 - [ ] CI (flutter analyze via `dart analyze` + flutter test).
+
+## Current design & features (snapshot — v1.1.1+3)
+
+State as shipped to closed test on Play. Reference when picking work back up.
+
+### Design language
+- **Identity:** editorial "golden hour". Dark ink ground (`#14181F`) / warm paper
+  light (`#F7F3EC`), single saffron accent (`#E0A24B`, deep `#C07F2E`). No generic
+  gradients, **no shadows**. Cards r20, inner hero r16, buttons r14, pills r999.
+- **Signature motif:** the **time arc** (zaman yayı) — `widgets/time_arc.dart`.
+  Animates; `arcPositionForTip()` currently maps per-tip, **not** the real clock.
+- **Type:** Fraunces (display) + Inter (body), bundled — no runtime google_fonts.
+  Scale in `app/theme/app_typography.dart` (`titleXL/titleL`, `bodyL/M`, `labelCaps`).
+- **Category tints:** 11 category colors, blended at ~6% over surface for card grounds.
+
+### Screens / features
+- **Feed** (`features/feed`): vertical full-screen `PageView` of tip cards; pillar
+  filter chips (All / Wellness / Communication); 🔥 streak chip appears at 2+ days;
+  haptic on page change; floating `TipActions` (favorite / share) per card.
+- **Tip card** (`widgets/tip_card.dart`): per-tip watercolor hero
+  `assets/images/cards/<id>.webp` (all 88 present), pill badge + emoji, title,
+  WHEN/WHY lines. Falls back to time-arc + emoji if art missing.
+- **Detail** (`features/detail`): encyclopedic. Pinned SliverAppBar hero, badge,
+  title, WHEN/WHY, then rich sections — origin, how to use, fun fact, countries.
+- **Browse** (`features/browse`): category grid + text search (`search_provider`),
+  per-category detail screen.
+- **Favorites** (`features/favorites`): Hive-backed heart, dedicated tab.
+- **Settings** (`features/settings`): language (TR/EN/system), theme
+  (light/dark/system), daily reminder on/off + time picker, interests selector,
+  streak banner (current/best), share app, rate (in_app_review), legal/about.
+- **Onboarding** (`features/onboarding`): 3 screens, legal disclaimer.
+- **Services:** deterministic daily tip (`daily_tip_service`), local notifications
+  (`notification_service`), Android home widget (`widget_service`, iOS pending Xcode
+  step), 4:5 PNG share (`share_service`), streak (`streak_service`), review.
+- **Content:** 88 cards in `assets/data/tips.json`, fully bilingual TR/EN, two
+  pillars (wellness, communication). Communication titles are quoted sentences.
+
+### Ideas backlog (proposed, not built)
+Visual/design:
+- [ ] Feed parallax + scale/fade on vertical page transition.
+- [ ] Wire time-arc to the real time of day (morning/noon/evening) — strengthens
+      the "right moment" theme; today `arcPositionForTip` is per-tip static.
+- [ ] Detail hero parallax + gradient scrim for title legibility.
+- [ ] Deeper category-color use in detail (colored section accent bars/icons).
+- [ ] Custom empty-state illustration from the time-arc motif (favorites/search).
+- [ ] Onboarding micro-animation: time-arc draw-in as the brand moment.
+
+Feature:
+- [ ] **Streak calendar + milestones** (7/30/100 days) — highest retention ROI;
+      service already exists, only a richer surface is missing.
+- [ ] **"Today's card" welcome hero** on launch using `daily_tip_service`.
+- [ ] User collections/lists on top of favorites (offline, Hive).
+- [ ] Multiple reminder times + quiet hours.
+- [ ] Search history / popular tags.
+- [ ] "Seen" flag on feed cards to dim already-viewed tips (Hive).
+- [ ] Finish **iOS widget** (Xcode target — see Open items) for platform parity.
+- [ ] Story (9:16) + square (1:1) share formats beyond the 4:5 PNG.
+- [ ] Richer haptics on favorite / streak milestone.
+- [ ] Content: adult/partner communication; grow beyond 88 cards.
+
+Suggested order: streak calendar+milestones → "today's card" hero → feed parallax +
+live time-arc → finish iOS widget.
 
 ## Memory
 

@@ -58,6 +58,18 @@
   "@streakBest": { "placeholders": { "count": { "type": "int" } } },
   "streakNone": "Start today",
 
+  "streakScreenTitle": "Your streak",
+  "streakGridTitle": "Last 90 days",
+  "streakMilestonesTitle": "Milestones",
+  "streakNextTarget": "{remaining} days to {target}",
+  "@streakNextTarget": { "placeholders": { "remaining": { "type": "int" }, "target": { "type": "int" } } },
+  "streakAllMilestones": "All milestones reached 🎉",
+  "streakRule": "Open Vakti once a day to keep your streak going.",
+  "streakCelebrationTitle": "{days}-day streak!",
+  "@streakCelebrationTitle": { "placeholders": { "days": { "type": "int" } } },
+  "streakCelebrationBody": "You showed up. Keep the rhythm going.",
+  "streakCelebrateDismiss": "Continue",
+
   "searchHint": "Search tips",
   "searchEmptyTitle": "No results",
   "searchEmptyBody": "Try another word.",

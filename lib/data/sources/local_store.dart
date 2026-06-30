@@ -24,6 +24,8 @@ class LocalStore {
   static const kStreakCount = 'streakCount'; // int — current consecutive days
   static const kStreakBest = 'streakBest'; // int — best streak ever
   static const kStreakLastDate = 'streakLastDate'; // 'yyyy-MM-dd'
+  static const kStreakDays = 'streakDays'; // List<String> active day keys (yyyy-MM-dd)
+  static const kStreakMilestones = 'streakMilestones'; // List<int> celebrated thresholds
   static const kInterests = 'interests'; // List<String> category ids
 
   bool _memory = false;
