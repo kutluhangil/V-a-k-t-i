@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app/theme/app_typography.dart';
+import 'time_arc.dart';
 
 /// A calm, centered empty-state (used by Favorites and any empty list).
 class EmptyState extends StatelessWidget {
@@ -24,7 +25,20 @@ class EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 44)),
+            // Brand "time arc" motif framing the emoji.
+            SizedBox(
+              height: 96,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  const TimeArc(position: 0.5, width: 150, animate: true),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Text(emoji, style: const TextStyle(fontSize: 40)),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 16),
             Text(
               title,

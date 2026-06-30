@@ -72,10 +72,25 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             left: 0,
             right: 0,
             child: IgnorePointer(
-              child: Center(
-                child: ValueListenableBuilder<double>(
-                  valueListenable: _arcPosition,
-                  builder: (context, pos, _) => TimeArc(position: pos, width: 460),
+              // One-shot "draw-in" entrance: the arc fades and settles down
+              // from above on first build — the brand moment.
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 750),
+                curve: Curves.easeOutCubic,
+                builder: (context, t, child) => Opacity(
+                  opacity: t,
+                  child: Transform.translate(
+                    offset: Offset(0, (t - 1) * 24),
+                    child: child,
+                  ),
+                ),
+                child: Center(
+                  child: ValueListenableBuilder<double>(
+                    valueListenable: _arcPosition,
+                    builder: (context, pos, _) =>
+                        TimeArc(position: pos, width: 460),
+                  ),
                 ),
               ),
             ),

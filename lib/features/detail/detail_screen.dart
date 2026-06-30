@@ -389,6 +389,15 @@ class _Section extends StatelessWidget {
         children: [
           Row(
             children: [
+              Container(
+                width: 3,
+                height: 16,
+                margin: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  color: tint,
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
               Text(icon, style: const TextStyle(fontSize: 18)),
               const SizedBox(width: 8),
               Text(
