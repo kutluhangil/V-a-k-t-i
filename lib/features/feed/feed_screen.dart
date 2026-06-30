@@ -15,15 +15,29 @@ import 'feed_providers.dart';
 
 /// The main feed: a vertical, full-screen PageView of tip cards with a pillar
 /// filter pinned at the top (blueprint §7.2).
-class FeedScreen extends ConsumerWidget {
+class FeedScreen extends ConsumerStatefulWidget {
   const FeedScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends ConsumerState<FeedScreen> {
+  final _controller = PageController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final repoAsync = ref.watch(tipRepositoryProvider);
     final pillar = ref.watch(pillarFilterProvider);
     final tips = ref.watch(feedTipsProvider);
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
 
     return SafeArea(
       child: Column(
@@ -35,12 +49,13 @@ class FeedScreen extends ConsumerWidget {
               error: (e, _) => Center(child: Text('$e')),
               data: (_) => PageView.builder(
                 key: ValueKey(pillar),
+                controller: _controller,
                 scrollDirection: Axis.vertical,
                 onPageChanged: (_) => HapticFeedback.selectionClick(),
                 itemCount: tips.length,
                 itemBuilder: (context, i) {
                   final tip = tips[i];
-                  return Padding(
+                  final card = Padding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     child: Stack(
                       children: [
@@ -63,6 +78,34 @@ class FeedScreen extends ConsumerWidget {
                           ),
                       ],
                     ),
+                  );
+
+                  if (reduceMotion) return card;
+
+                  return AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      // During a pillar swap the keyed PageView is briefly
+                      // attached alongside the old one (2 positions); `.position`
+                      // asserts a single attachment, so guard on exactly one.
+                      final hasDims = _controller.positions.length == 1 &&
+                          _controller.position.hasContentDimensions;
+                      final page = hasDims
+                          ? (_controller.page ?? i.toDouble())
+                          : i.toDouble();
+                      final h =
+                          hasDims ? _controller.position.viewportDimension : 0.0;
+                      final delta = i - page;
+                      final tr = depthTransform(delta);
+                      return Transform.translate(
+                        offset: Offset(0, tr.lag * h * 0.65),
+                        child: Transform.scale(
+                          scale: tr.scale,
+                          child: Opacity(opacity: tr.opacity, child: child),
+                        ),
+                      );
+                    },
+                    child: card,
                   );
                 },
               ),
@@ -189,4 +232,17 @@ class _TodayBadge extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Per-card transform for the feed's depth-stack transition, given the card's
+/// page-delta (`delta = itemIndex - page`). Outgoing cards (delta < 0) recede,
+/// fade, and lag so the incoming card stacks over them; others are identity.
+({double scale, double opacity, double lag}) depthTransform(double delta) {
+  if (delta >= 0) return (scale: 1.0, opacity: 1.0, lag: 0.0);
+  final t = delta.clamp(-1.0, 0.0);
+  return (
+    scale: 1.0 + 0.08 * t,
+    opacity: (1.0 + 1.4 * t).clamp(0.0, 1.0),
+    lag: -t,
+  );
 }
