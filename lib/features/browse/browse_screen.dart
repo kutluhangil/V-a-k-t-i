@@ -11,6 +11,7 @@ import '../../widgets/category_tile.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/favorite_card.dart';
 import '../../widgets/vakti_screen_title.dart';
+import 'search_history_provider.dart';
 import 'search_provider.dart';
 
 /// Browse tab: a search field over all tips, then categories grouped by pillar
@@ -53,6 +54,8 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
             controller: _controller,
             hint: l.searchHint,
             onChanged: (v) => ref.read(searchQueryProvider.notifier).set(v),
+            onSubmitted: (v) =>
+                ref.read(searchHistoryProvider.notifier).record(v),
             onClear: () {
               _controller.clear();
               ref.read(searchQueryProvider.notifier).clear();
@@ -60,6 +63,12 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
           ),
           const SizedBox(height: 8),
           if (query.trim().isEmpty) ...[
+            _SearchDiscovery(
+              onTap: (term) {
+                _controller.text = term;
+                ref.read(searchQueryProvider.notifier).set(term);
+              },
+            ),
             _Section(
               title: l.pillarWellness,
               categories: categoriesForPillar(ContentPillar.wellness),
@@ -83,12 +92,14 @@ class _SearchField extends StatelessWidget {
     required this.hint,
     required this.onChanged,
     required this.onClear,
+    required this.onSubmitted,
   });
 
   final TextEditingController controller;
   final String hint;
   final ValueChanged<String> onChanged;
   final VoidCallback onClear;
+  final ValueChanged<String> onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +107,7 @@ class _SearchField extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      onSubmitted: onSubmitted,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration(
         hintText: hint,
@@ -133,6 +145,7 @@ class _SearchResults extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final results = ref.watch(searchResultsProvider);
+    final query = ref.read(searchQueryProvider);
 
     if (results.isEmpty) {
       return Padding(
@@ -153,7 +166,10 @@ class _SearchResults extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 14),
             child: FavoriteCard(
               tip: tip,
-              onTap: () => context.push('/tip/${tip.id}'),
+              onTap: () {
+                ref.read(searchHistoryProvider.notifier).record(query);
+                context.push('/tip/${tip.id}');
+              },
             ),
           ),
       ],
@@ -191,6 +207,74 @@ class _Section extends StatelessWidget {
               ),
           ],
         ),
+      ],
+    );
+  }
+}
+
+/// Popular + recent search chips, shown above the category grid when the
+/// search field is empty. Session-only; hidden when there is nothing to show.
+class _SearchDiscovery extends ConsumerWidget {
+  const _SearchDiscovery({required this.onTap});
+
+  final ValueChanged<String> onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final history = ref.watch(searchHistoryProvider);
+    final popular = history.popular;
+    final recent = history.recent;
+    if (popular.isEmpty && recent.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (popular.isNotEmpty) ...[
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 8),
+            child: Text(l.popularLabel, style: AppTypography.labelCaps),
+          ),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final term in popular)
+                ActionChip(label: Text(term), onPressed: () => onTap(term)),
+            ],
+          ),
+        ],
+        if (recent.isNotEmpty) ...[
+          Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(l.recentSearchesLabel, style: AppTypography.labelCaps),
+                TextButton(
+                  onPressed: () =>
+                      ref.read(searchHistoryProvider.notifier).clearRecent(),
+                  child: Text(l.clearAll),
+                ),
+              ],
+            ),
+          ),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final term in recent)
+                InputChip(
+                  label: Text(term),
+                  onPressed: () => onTap(term),
+                  deleteIcon: const Icon(Icons.close, size: 16),
+                  onDeleted: () => ref
+                      .read(searchHistoryProvider.notifier)
+                      .removeRecent(term),
+                ),
+            ],
+          ),
+        ],
       ],
     );
   }
