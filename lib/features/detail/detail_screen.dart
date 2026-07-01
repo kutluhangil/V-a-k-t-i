@@ -9,6 +9,7 @@ import '../../data/repositories/tip_repository.dart';
 import '../../widgets/pill_badge.dart';
 import '../../widgets/time_arc.dart';
 import '../../widgets/tip_actions.dart';
+import '../collections/collection_picker_sheet.dart';
 
 /// Full single-card detail view — encyclopedic layout (§7.4).
 /// Top: hero image + badge + title. Below: WHEN/WHY summary, then rich
@@ -81,6 +82,10 @@ class _DetailBodyState extends State<_DetailBody> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.bookmark_add_outlined, size: 22),
+              onPressed: () => showCollectionPicker(context, tip.id),
+            ),
             TipActions(tip: tip, axis: Axis.horizontal),
             const SizedBox(width: 8),
           ],
