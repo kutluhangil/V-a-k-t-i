@@ -315,6 +315,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutBody => 'Free, ad-free, offline. Made with care.';
 
   @override
+  String get relatedTitle => 'Related cards';
+
+  @override
   String get shareFormatTitle => 'Share as';
 
   @override

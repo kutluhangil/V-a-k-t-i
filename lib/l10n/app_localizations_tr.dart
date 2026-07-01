@@ -315,6 +315,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutBody => 'Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.';
 
   @override
+  String get relatedTitle => 'İlgili Kartlar';
+
+  @override
   String get shareFormatTitle => 'Farklı paylaş';
 
   @override

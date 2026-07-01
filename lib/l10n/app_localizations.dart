@@ -668,6 +668,12 @@ abstract class AppLocalizations {
   /// **'Free, ad-free, offline. Made with care.'**
   String get aboutBody;
 
+  /// No description provided for @relatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Related cards'**
+  String get relatedTitle;
+
   /// No description provided for @shareFormatTitle.
   ///
   /// In en, this message translates to:
