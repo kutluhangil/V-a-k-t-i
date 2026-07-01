@@ -97,56 +97,91 @@ class ShareCard extends StatelessWidget {
     final m = _CardMetrics.of(format);
     final size = format.size;
 
-    return Container(
+    return SizedBox(
       width: size.width,
       height: size.height,
-      color: AppColors.ink,
-      padding: m.padding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        fit: StackFit.expand,
         children: [
-          Center(
-            child: TimeArc(
-              position: arcPositionForTip(tip),
-              width: m.arcWidth,
-              dotColor: AppColors.saffron,
-              arcColor: AppColors.paper.withValues(alpha: 0.25),
-            ),
+          // Watercolor hero art; falls back to a plain ink ground if missing.
+          Image.asset(
+            'assets/images/cards/${tip.id}.webp',
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) =>
+                const ColoredBox(color: AppColors.ink),
           ),
-          const Spacer(),
-          Text(tip.emoji, style: TextStyle(fontSize: m.emojiSize)),
-          const SizedBox(height: 24),
-          Text(
-            tip.title.of(lang),
-            style: TextStyle(
-              fontFamily: 'Fraunces',
-              fontWeight: FontWeight.w600,
-              fontSize: (isWellness ? 76 : 58) * m.titleScale,
-              height: 1.1,
-              color: AppColors.paper,
-            ),
-          ),
-          SizedBox(height: m.gapAfterTitle),
-          _block(tip.primaryLabel.of(lang), tip.primary.of(lang),
-              44 * m.blockScale),
-          SizedBox(height: m.gapBetweenBlocks),
-          _block(tip.secondaryLabel.of(lang), tip.secondary.of(lang),
-              38 * m.blockScale),
-          Spacer(flex: m.footerFlex),
-          Row(
-            children: [
-              Text(category?.emoji ?? '', style: const TextStyle(fontSize: 36)),
-              const Spacer(),
-              Text(
-                'Vakti',
-                style: TextStyle(
-                  fontFamily: 'Fraunces',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 40,
-                  color: AppColors.paper.withValues(alpha: 0.92),
-                ),
+          // Dark scrim: light at top (art shows) → heavy at bottom (text legible).
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.ink.withValues(alpha: 0.35),
+                  AppColors.ink.withValues(alpha: 0.92),
+                ],
               ),
-            ],
+            ),
+          ),
+          Padding(
+            padding: m.padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: TimeArc(
+                    position: arcPositionForTip(tip),
+                    width: m.arcWidth,
+                    dotColor: AppColors.saffron,
+                    arcColor: AppColors.paper.withValues(alpha: 0.25),
+                  ),
+                ),
+                const Spacer(),
+                Text(tip.emoji, style: TextStyle(fontSize: m.emojiSize)),
+                const SizedBox(height: 24),
+                Text(
+                  tip.title.of(lang),
+                  style: TextStyle(
+                    fontFamily: 'Fraunces',
+                    fontWeight: FontWeight.w600,
+                    fontSize: (isWellness ? 76 : 58) * m.titleScale,
+                    height: 1.1,
+                    color: AppColors.paper,
+                  ),
+                ),
+                SizedBox(height: m.gapAfterTitle),
+                _block(
+                  tip.primaryLabel.of(lang),
+                  tip.primary.of(lang),
+                  44 * m.blockScale,
+                ),
+                SizedBox(height: m.gapBetweenBlocks),
+                _block(
+                  tip.secondaryLabel.of(lang),
+                  tip.secondary.of(lang),
+                  38 * m.blockScale,
+                ),
+                Spacer(flex: m.footerFlex),
+                Row(
+                  children: [
+                    Text(
+                      category?.emoji ?? '',
+                      style: const TextStyle(fontSize: 36),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Vakti',
+                      style: TextStyle(
+                        fontFamily: 'Fraunces',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 40,
+                        color: AppColors.paper.withValues(alpha: 0.92),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
