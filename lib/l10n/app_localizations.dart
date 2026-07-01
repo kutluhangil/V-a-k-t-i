@@ -668,6 +668,30 @@ abstract class AppLocalizations {
   /// **'Free, ad-free, offline. Made with care.'**
   String get aboutBody;
 
+  /// No description provided for @shareFormatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as'**
+  String get shareFormatTitle;
+
+  /// No description provided for @shareFormatPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get shareFormatPost;
+
+  /// No description provided for @shareFormatStory.
+  ///
+  /// In en, this message translates to:
+  /// **'Story'**
+  String get shareFormatStory;
+
+  /// No description provided for @shareFormatSquare.
+  ///
+  /// In en, this message translates to:
+  /// **'Square'**
+  String get shareFormatSquare;
+
   /// No description provided for @popularLabel.
   ///
   /// In en, this message translates to:

@@ -117,6 +117,11 @@
   "widgetInfoBody": "Günün bilgisini bir bakışta görmek için ana ekranına Vakti widget'ını ekle.",
   "aboutBody": "Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.",
 
+  "shareFormatTitle": "Farklı paylaş",
+  "shareFormatPost": "Gönderi",
+  "shareFormatStory": "Story",
+  "shareFormatSquare": "Kare",
+
   "popularLabel": "Popüler",
   "recentSearchesLabel": "Son aramalar",
   "clearAll": "Temizle",

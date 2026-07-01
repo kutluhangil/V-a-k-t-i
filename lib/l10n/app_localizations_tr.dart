@@ -315,6 +315,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutBody => 'Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.';
 
   @override
+  String get shareFormatTitle => 'Farklı paylaş';
+
+  @override
+  String get shareFormatPost => 'Gönderi';
+
+  @override
+  String get shareFormatStory => 'Story';
+
+  @override
+  String get shareFormatSquare => 'Kare';
+
+  @override
   String get popularLabel => 'Popüler';
 
   @override

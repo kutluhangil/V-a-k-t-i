@@ -315,6 +315,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutBody => 'Free, ad-free, offline. Made with care.';
 
   @override
+  String get shareFormatTitle => 'Share as';
+
+  @override
+  String get shareFormatPost => 'Post';
+
+  @override
+  String get shareFormatStory => 'Story';
+
+  @override
+  String get shareFormatSquare => 'Square';
+
+  @override
   String get popularLabel => 'Popular';
 
   @override
