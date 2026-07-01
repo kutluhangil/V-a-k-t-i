@@ -18,7 +18,7 @@ class ShareService {
       ShareCard(tip: tip, lang: lang),
       context: context,
       pixelRatio: 1,
-      targetSize: ShareCard.size,
+      targetSize: ShareFormat.post.size,
     );
 
     final dir = await getTemporaryDirectory();

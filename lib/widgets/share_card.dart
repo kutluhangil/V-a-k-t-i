@@ -6,56 +6,133 @@ import '../data/models/content_pillar.dart';
 import '../data/models/tip.dart';
 import 'time_arc.dart';
 
-/// The 1080×1350 (4:5) branded image rendered for sharing (§9.2).
-/// Always dark "ink" ground for a consistent look regardless of app theme,
-/// with a small "Vakti" watermark for organic growth.
+/// Aspect ratios offered when sharing a tip as an image.
+enum ShareFormat {
+  post(Size(1080, 1350)),
+  story(Size(1080, 1920)),
+  square(Size(1080, 1080));
+
+  const ShareFormat(this.size);
+  final Size size;
+}
+
+/// Per-format layout tuning so one card composition serves all three ratios.
+class _CardMetrics {
+  const _CardMetrics({
+    required this.padding,
+    required this.arcWidth,
+    required this.emojiSize,
+    required this.titleScale,
+    required this.gapAfterTitle,
+    required this.gapBetweenBlocks,
+    required this.footerFlex,
+  });
+
+  final EdgeInsets padding;
+  final double arcWidth;
+  final double emojiSize;
+  final double titleScale; // multiplied into the base title size
+  final double gapAfterTitle;
+  final double gapBetweenBlocks;
+  final int footerFlex;
+
+  /// Block value font sizes scale gently with the title (kept readable).
+  double get blockScale => titleScale.clamp(0.85, 1.0);
+
+  static _CardMetrics of(ShareFormat f) {
+    switch (f) {
+      case ShareFormat.post:
+        return const _CardMetrics(
+          padding: EdgeInsets.fromLTRB(96, 96, 96, 80),
+          arcWidth: 280,
+          emojiSize: 132,
+          titleScale: 1.0,
+          gapAfterTitle: 56,
+          gapBetweenBlocks: 36,
+          footerFlex: 2,
+        );
+      case ShareFormat.story:
+        return const _CardMetrics(
+          padding: EdgeInsets.fromLTRB(112, 260, 112, 240),
+          arcWidth: 340,
+          emojiSize: 148,
+          titleScale: 1.0,
+          gapAfterTitle: 64,
+          gapBetweenBlocks: 44,
+          footerFlex: 2,
+        );
+      case ShareFormat.square:
+        return const _CardMetrics(
+          padding: EdgeInsets.fromLTRB(80, 72, 80, 64),
+          arcWidth: 200,
+          emojiSize: 96,
+          titleScale: 0.72,
+          gapAfterTitle: 32,
+          gapBetweenBlocks: 24,
+          footerFlex: 1,
+        );
+    }
+  }
+}
+
+/// A branded image rendered for sharing (§9.2), in one of three aspect ratios
+/// ([ShareFormat]). Always dark "ink" ground for a consistent look regardless
+/// of app theme, with a small "Vakti" watermark for organic growth.
 class ShareCard extends StatelessWidget {
-  const ShareCard({super.key, required this.tip, required this.lang});
+  const ShareCard({
+    super.key,
+    required this.tip,
+    required this.lang,
+    this.format = ShareFormat.post,
+  });
 
   final Tip tip;
   final String lang;
-
-  static const size = Size(1080, 1350);
+  final ShareFormat format;
 
   @override
   Widget build(BuildContext context) {
     final category = categoryById(tip.category);
     final isWellness = tip.pillar == ContentPillar.wellness;
+    final m = _CardMetrics.of(format);
+    final size = format.size;
 
     return Container(
       width: size.width,
       height: size.height,
       color: AppColors.ink,
-      padding: const EdgeInsets.fromLTRB(96, 96, 96, 80),
+      padding: m.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
             child: TimeArc(
               position: arcPositionForTip(tip),
-              width: 280,
+              width: m.arcWidth,
               dotColor: AppColors.saffron,
               arcColor: AppColors.paper.withValues(alpha: 0.25),
             ),
           ),
           const Spacer(),
-          Text(tip.emoji, style: const TextStyle(fontSize: 132)),
+          Text(tip.emoji, style: TextStyle(fontSize: m.emojiSize)),
           const SizedBox(height: 24),
           Text(
             tip.title.of(lang),
             style: TextStyle(
               fontFamily: 'Fraunces',
               fontWeight: FontWeight.w600,
-              fontSize: isWellness ? 76 : 58,
+              fontSize: (isWellness ? 76 : 58) * m.titleScale,
               height: 1.1,
               color: AppColors.paper,
             ),
           ),
-          const SizedBox(height: 56),
-          _block(tip.primaryLabel.of(lang), tip.primary.of(lang), 44),
-          const SizedBox(height: 36),
-          _block(tip.secondaryLabel.of(lang), tip.secondary.of(lang), 38),
-          const Spacer(flex: 2),
+          SizedBox(height: m.gapAfterTitle),
+          _block(tip.primaryLabel.of(lang), tip.primary.of(lang),
+              44 * m.blockScale),
+          SizedBox(height: m.gapBetweenBlocks),
+          _block(tip.secondaryLabel.of(lang), tip.secondary.of(lang),
+              38 * m.blockScale),
+          Spacer(flex: m.footerFlex),
           Row(
             children: [
               Text(category?.emoji ?? '', style: const TextStyle(fontSize: 36)),
