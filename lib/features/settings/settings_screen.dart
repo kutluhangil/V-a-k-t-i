@@ -269,41 +269,58 @@ class SettingsScreen extends ConsumerWidget {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l.settingsInterests, style: AppTypography.titleL),
-            const SizedBox(height: 4),
-            Text(
-              l.settingsInterestsHint,
-              style: AppTypography.bodyM.copyWith(
-                color: Theme.of(context).textTheme.bodySmall?.color,
+      isScrollControlled: true,
+      builder: (context) => ConstrainedBox(
+        // Cap at 80% of screen; content scrolls if the chips run longer.
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            20,
+            4,
+            20,
+            28 + MediaQuery.of(context).padding.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l.settingsInterests, style: AppTypography.titleL),
+              const SizedBox(height: 4),
+              Text(
+                l.settingsInterestsHint,
+                style: AppTypography.bodyM.copyWith(
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Consumer(
-              builder: (context, ref, _) {
-                final selected = ref.watch(interestsProvider);
-                return Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final c in kCategories)
-                      FilterChip(
-                        label: Text('${c.emoji} ${c.title.of(lang)}'),
-                        selected: selected.contains(c.id),
-                        showCheckmark: false,
-                        onSelected: (_) =>
-                            ref.read(interestsProvider.notifier).toggle(c.id),
-                      ),
-                  ],
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 16),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Consumer(
+                    builder: (context, ref, _) {
+                      final selected = ref.watch(interestsProvider);
+                      return Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          for (final c in kCategories)
+                            FilterChip(
+                              label: Text('${c.emoji} ${c.title.of(lang)}'),
+                              selected: selected.contains(c.id),
+                              showCheckmark: false,
+                              onSelected: (_) => ref
+                                  .read(interestsProvider.notifier)
+                                  .toggle(c.id),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
