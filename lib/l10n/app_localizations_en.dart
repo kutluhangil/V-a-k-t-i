@@ -315,6 +315,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutBody => 'Free, ad-free, offline. Made with care.';
 
   @override
+  String get popularLabel => 'Popular';
+
+  @override
+  String get recentSearchesLabel => 'Recent searches';
+
+  @override
+  String get clearAll => 'Clear';
+
+  @override
   String tipsLoaded(int count) {
     return '$count tips loaded';
   }

@@ -668,6 +668,24 @@ abstract class AppLocalizations {
   /// **'Free, ad-free, offline. Made with care.'**
   String get aboutBody;
 
+  /// No description provided for @popularLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get popularLabel;
+
+  /// No description provided for @recentSearchesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get recentSearchesLabel;
+
+  /// No description provided for @clearAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearAll;
+
   /// No description provided for @tipsLoaded.
   ///
   /// In en, this message translates to:

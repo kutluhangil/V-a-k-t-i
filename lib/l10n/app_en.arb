@@ -117,6 +117,10 @@
   "widgetInfoBody": "Add the Vakti widget to your home screen to see today's tip at a glance.",
   "aboutBody": "Free, ad-free, offline. Made with care.",
 
+  "popularLabel": "Popular",
+  "recentSearchesLabel": "Recent searches",
+  "clearAll": "Clear",
+
   "tipsLoaded": "{count} tips loaded",
   "@tipsLoaded": {
     "placeholders": {

@@ -315,6 +315,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aboutBody => 'Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.';
 
   @override
+  String get popularLabel => 'Popüler';
+
+  @override
+  String get recentSearchesLabel => 'Son aramalar';
+
+  @override
+  String get clearAll => 'Temizle';
+
+  @override
   String tipsLoaded(int count) {
     return '$count bilgi yüklendi';
   }

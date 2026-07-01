@@ -117,5 +117,9 @@
   "widgetInfoBody": "Günün bilgisini bir bakışta görmek için ana ekranına Vakti widget'ını ekle.",
   "aboutBody": "Ücretsiz, reklamsız, çevrimdışı. Özenle yapıldı.",
 
+  "popularLabel": "Popüler",
+  "recentSearchesLabel": "Son aramalar",
+  "clearAll": "Temizle",
+
   "tipsLoaded": "{count} bilgi yüklendi"
 }
