@@ -266,6 +266,96 @@ abstract class AppLocalizations {
   /// **'Tap the heart on a card to keep it here.'**
   String get favoritesEmptyBody;
 
+  /// No description provided for @favoritesSegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favoritesSegment;
+
+  /// No description provided for @collectionsSegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Collections'**
+  String get collectionsSegment;
+
+  /// No description provided for @newCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'New collection'**
+  String get newCollection;
+
+  /// No description provided for @collectionNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection name'**
+  String get collectionNameHint;
+
+  /// No description provided for @renameCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get renameCollection;
+
+  /// No description provided for @deleteCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteCollection;
+
+  /// No description provided for @addToCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to collection'**
+  String get addToCollection;
+
+  /// No description provided for @collectionsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No collections yet'**
+  String get collectionsEmptyTitle;
+
+  /// No description provided for @collectionsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a list to group tips your way.'**
+  String get collectionsEmptyBody;
+
+  /// No description provided for @collectionEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This collection is empty'**
+  String get collectionEmptyTitle;
+
+  /// No description provided for @collectionEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tips from any card.'**
+  String get collectionEmptyBody;
+
+  /// No description provided for @createAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createAction;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
+  /// No description provided for @saveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveAction;
+
+  /// No description provided for @collectionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} tips'**
+  String collectionCount(int count);
+
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:

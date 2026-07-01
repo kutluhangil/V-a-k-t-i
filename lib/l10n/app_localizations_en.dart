@@ -97,6 +97,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String get favoritesEmptyBody => 'Tap the heart on a card to keep it here.';
 
   @override
+  String get favoritesSegment => 'Favorites';
+
+  @override
+  String get collectionsSegment => 'Collections';
+
+  @override
+  String get newCollection => 'New collection';
+
+  @override
+  String get collectionNameHint => 'Collection name';
+
+  @override
+  String get renameCollection => 'Rename';
+
+  @override
+  String get deleteCollection => 'Delete';
+
+  @override
+  String get addToCollection => 'Add to collection';
+
+  @override
+  String get collectionsEmptyTitle => 'No collections yet';
+
+  @override
+  String get collectionsEmptyBody => 'Create a list to group tips your way.';
+
+  @override
+  String get collectionEmptyTitle => 'This collection is empty';
+
+  @override
+  String get collectionEmptyBody => 'Add tips from any card.';
+
+  @override
+  String get createAction => 'Create';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get saveAction => 'Save';
+
+  @override
+  String collectionCount(int count) {
+    return '$count tips';
+  }
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override

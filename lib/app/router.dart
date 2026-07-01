@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../data/sources/local_store.dart';
 import '../features/browse/browse_screen.dart';
 import '../features/browse/category_detail_screen.dart';
+import '../features/collections/collection_detail_screen.dart';
 import '../features/detail/detail_screen.dart';
 import '../features/favorites/favorites_screen.dart';
 import '../features/feed/feed_screen.dart';
@@ -55,6 +56,12 @@ final GoRouter appRouter = GoRouter(
       path: '/streak',
       parentNavigatorKey: rootNavigatorKey,
       builder: (_, _) => const StreakScreen(),
+    ),
+    GoRoute(
+      path: '/collection/:id',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, state) =>
+          CollectionDetailScreen(collectionId: state.pathParameters['id']!),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>

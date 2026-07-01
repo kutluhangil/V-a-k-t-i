@@ -97,6 +97,54 @@ class AppLocalizationsTr extends AppLocalizations {
   String get favoritesEmptyBody => 'Bir kartı burada tutmak için kalbe dokun.';
 
   @override
+  String get favoritesSegment => 'Favoriler';
+
+  @override
+  String get collectionsSegment => 'Koleksiyonlar';
+
+  @override
+  String get newCollection => 'Yeni koleksiyon';
+
+  @override
+  String get collectionNameHint => 'Koleksiyon adı';
+
+  @override
+  String get renameCollection => 'Yeniden adlandır';
+
+  @override
+  String get deleteCollection => 'Sil';
+
+  @override
+  String get addToCollection => 'Koleksiyona ekle';
+
+  @override
+  String get collectionsEmptyTitle => 'Henüz koleksiyon yok';
+
+  @override
+  String get collectionsEmptyBody =>
+      'Bilgileri kendi tarzında gruplamak için bir liste oluştur.';
+
+  @override
+  String get collectionEmptyTitle => 'Bu koleksiyon boş';
+
+  @override
+  String get collectionEmptyBody => 'Herhangi bir karttan bilgi ekle.';
+
+  @override
+  String get createAction => 'Oluştur';
+
+  @override
+  String get cancelAction => 'Vazgeç';
+
+  @override
+  String get saveAction => 'Kaydet';
+
+  @override
+  String collectionCount(int count) {
+    return '$count bilgi';
+  }
+
+  @override
   String get settingsTitle => 'Ayarlar';
 
   @override
