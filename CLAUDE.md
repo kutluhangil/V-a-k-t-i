@@ -167,13 +167,16 @@ Feature:
       sheet from the detail app bar (`features/collections/`).
 - [ ] Multiple reminder times + quiet hours. *(not started — product/UX decisions on
       defaults)*
-- [ ] Search history / popular tags.
+- [x] Search history / popular tags — shipped (session-only in-memory
+      `search_history_provider`; Browse popular + recent chips).
 - [ ] "Seen" flag to dim viewed tips — **low value** for a single-card PageView feed;
       parked.
 - [ ] Finish **iOS widget** (Xcode target — see Open items). *Manual Xcode step; can't
       be done/verified headlessly here.*
-- [ ] Story (9:16) + square (1:1) share formats — **needs visual verification** of the
-      rendered PNG layouts; deferred to a session where output can be eyeballed.
+- [x] Story (9:16) + square (1:1) share formats — shipped (`ShareFormat` enum,
+      format-aware `ShareCard`, bottom-sheet picker). Layouts render-verified
+      headlessly (composition sound, no overflow; text/emoji show as tofu in
+      flutter_test since bundled fonts don't load there — real app renders them).
 - [ ] Content: adult/partner communication; grow beyond 88 cards. *(content authoring)*
 
 Done this round (uncommitted-to-remote unless pushed): streak calendar, today's card,
